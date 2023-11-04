@@ -56,9 +56,7 @@ public class ReservationService {
     public List<Guest> getHotelGuests() {
         Iterable<Guest> guests = guestRepository.findAll();
         List<Guest> guestsResult = new ArrayList<>();
-        guests.forEach(guest -> {
-            guestsResult.add(guest);
-        });
+        guests.forEach(guestsResult::add);
 
         guestsResult.sort(new Comparator<Guest>() {
             @Override
@@ -71,6 +69,30 @@ public class ReservationService {
         });
 
         return guestsResult;
+    }
+
+
+    public void addGuest(Guest guest) {
+        if (guest == null) {
+            throw new RuntimeException("Cannot add a null Guest");
+        }
+
+        this.guestRepository.save(guest);
+    }
+
+    public List<Room> getRooms() {
+        Iterable<Room> rooms = roomRepository.findAll();
+        List<Room> roomsResult = new ArrayList<>();
+        rooms.forEach(roomsResult::add);
+
+        roomsResult.sort(new Comparator<Room>() {
+            @Override
+            public int compare(Room o1, Room o2) {
+                return o1.getRoomNumber().compareTo(o2.getRoomNumber());
+            }
+        });
+
+        return roomsResult;
     }
 }
 
