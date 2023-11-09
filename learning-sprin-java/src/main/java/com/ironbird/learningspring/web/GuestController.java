@@ -18,7 +18,6 @@ public class GuestController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String getGuests(Model model) {
-        System.out.println("GET /guests ".repeat(10));
         model.addAttribute("guests", reservationService.getHotelGuests());
         return "hotel-guests";
     }

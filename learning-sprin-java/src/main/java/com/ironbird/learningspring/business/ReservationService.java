@@ -27,15 +27,17 @@ public class ReservationService {
             roomReservation.setRoomNumber(room.getRoomNumber());
             roomReservationMap.put(room.getRoomId(), roomReservation);
         });
+
         Iterable<Reservation> reservations = this.reservationRepository.findReservationByReservationDate(new java.sql.Date(date.getTime()));
         reservations.forEach(reservation -> {
-            RoomReservation roomReservation = roomReservationMap.get(reservation.getReservationId());
+            RoomReservation roomReservation = roomReservationMap.get(reservation.getRoom().getRoomId());
             roomReservation.setDate(date);
             Guest guest = this.guestRepository.findById(reservation.getReservationId()).get();
             roomReservation.setFirstName(guest.getFirstName());
             roomReservation.setLastName(guest.getLastName());
             roomReservation.setGuestId(guest.getGuestId());
         });
+
         List<RoomReservation> roomReservations = new ArrayList<>();
         for (Long id : roomReservationMap.keySet()) {
             roomReservations.add(roomReservationMap.get(id));

@@ -12,29 +12,27 @@ class Guest {
     var guestId: Long? = null
 
     @Column(name = "FIRST_NAME")
-    private val firstName: String? = null
+    val firstName: String? = null
 
     @Column(name = "LAST_NAME")
-    private val lastName: String? = null
+    val lastName: String? = null
 
     @Column(name = "EMAIL_ADDRESS")
-    private val emailAddress: String? = null
+    val emailAddress: String? = null
 
     @Column(name = "ADDRESS")
-    private val address: String? = null
+    val address: String? = null
 
     @Column(name = "COUNTRY")
-    private val country: String? = null
+    val country: String? = null
 
     @Column(name = "STATE")
-    private val state: String? = null
+    val state: String? = null
 
     @Column(name = "PHONE_NUMBER")
-    private val phoneNumber: String? = null
+    val phoneNumber: String? = null
 
     override fun toString(): String {
         return "Guest(guestId=$guestId, firstName=$firstName, lastName=$lastName, emailAddress=$emailAddress, address=$address, country=$country, state=$state, phoneNumber=$phoneNumber)"
     }
-
-
 }
