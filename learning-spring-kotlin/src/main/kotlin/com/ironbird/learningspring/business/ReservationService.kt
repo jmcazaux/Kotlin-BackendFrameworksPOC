@@ -1,9 +1,6 @@
 package com.ironbird.learningspring.business
 
-import com.ironbird.learningspring.data.Guest
-import com.ironbird.learningspring.data.GuestRepository
-import com.ironbird.learningspring.data.ReservationRepository
-import com.ironbird.learningspring.data.RoomRepository
+import com.ironbird.learningspring.data.*
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -51,5 +48,19 @@ class ReservationService(
                 g1.lastName.compareTo(g2.lastName ?: "")
             }
         }
+    }
+
+    fun addHotelGuest(guest: Guest?) {
+        if (guest == null) {
+            throw RuntimeException("Cannot add a null Guest")
+        }
+        guestRepository.save(guest)
+    }
+
+
+    fun getRooms(): List<Room> {
+        val rooms = roomRepository.findAll().toList()
+
+        return rooms.sortedBy { room -> room.roomNumber }
     }
 }
