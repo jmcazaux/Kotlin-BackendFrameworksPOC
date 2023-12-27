@@ -1,6 +1,6 @@
-package com.example
+package com.ironbird
 
-import com.example.plugins.*
+import com.ironbird.plugins.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*

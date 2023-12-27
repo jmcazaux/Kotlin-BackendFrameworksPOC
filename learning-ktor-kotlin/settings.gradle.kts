@@ -1,1 +1,1 @@
-rootProject.name = "com.example.learning-ktor-kotlin"
+rootProject.name = "com.ironbird.learning-ktor-kotlin"

@@ -1,4 +1,4 @@
-package com.example.plugins
+package com.ironbird.plugins
 
 import com.fasterxml.jackson.databind.*
 import io.ktor.serialization.jackson.*

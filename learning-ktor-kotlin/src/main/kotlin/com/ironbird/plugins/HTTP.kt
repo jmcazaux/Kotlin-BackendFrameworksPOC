@@ -1,4 +1,4 @@
-package com.example.plugins
+package com.ironbird.plugins
 
 import io.ktor.server.application.*
 import io.ktor.server.plugins.openapi.*
@@ -10,6 +10,6 @@ fun Application.configureHTTP() {
         openAPI(path = "openapi")
     }
     routing {
-        swaggerUI(path = "openapi")
+        swaggerUI(path = "swagger")
     }
 }
