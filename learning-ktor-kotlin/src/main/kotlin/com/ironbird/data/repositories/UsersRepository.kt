@@ -1,15 +1,13 @@
-package com.ironbird.plugins
+package com.ironbird.data.repositories
 
+import com.ironbird.data.entities.User
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import kotlinx.serialization.Serializable
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.*
 
-@Serializable
-data class ExposedUser(val name: String, val age: Int)
-class UserService(private val database: Database) {
+class UsersRepository(private val database: Database) {
     object Users : Table() {
         val id = integer("id").autoIncrement()
         val name = varchar("name", length = 50)
@@ -27,22 +25,31 @@ class UserService(private val database: Database) {
     suspend fun <T> dbQuery(block: suspend () -> T): T =
         newSuspendedTransaction(Dispatchers.IO) { block() }
 
-    suspend fun create(user: ExposedUser): Int = dbQuery {
+    suspend fun create(user: User): Int = dbQuery {
         Users.insert {
             it[name] = user.name
             it[age] = user.age
         }[Users.id]
     }
 
-    suspend fun read(id: Int): ExposedUser? {
+    suspend fun read(id: Int): User? {
         return dbQuery {
             Users.select { Users.id eq id }
-                .map { ExposedUser(it[Users.name], it[Users.age]) }
+                .map { User(it[Users.name], it[Users.age]) }
                 .singleOrNull()
         }
     }
 
-    suspend fun update(id: Int, user: ExposedUser) {
+    suspend fun readAll(): List<User> {
+        return dbQuery {
+            Users.selectAll()
+                .map {
+                    User(it[Users.name], it[Users.age])
+                }
+        }
+    }
+
+    suspend fun update(id: Int, user: User) {
         dbQuery {
             Users.update({ Users.id eq id }) {
                 it[name] = user.name
