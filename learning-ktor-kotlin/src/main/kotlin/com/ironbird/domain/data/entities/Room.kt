@@ -1,4 +1,4 @@
-package com.ironbird.data.entities
+package com.ironbird.domain.data.entities
 
 import kotlinx.serialization.Serializable
 

@@ -1,8 +1,8 @@
 package com.ironbird.plugins
 
-import com.ironbird.data.entities.User
-import com.ironbird.data.repositories.RoomsRepository
-import com.ironbird.data.repositories.UsersRepository
+import com.ironbird.domain.data.entities.User
+import com.ironbird.application.repositories.RoomsRepository
+import com.ironbird.application.repositories.UsersRepository
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.http.*
@@ -30,7 +30,7 @@ fun Application.configureDatabases() {
 
     // Initializing DB schema (as we use in-memory DB, no need for upgrading , etc.)
     transaction(database) {
-        SchemaUtils.create(UsersRepository.Users, RoomsRepository.Room)
+        SchemaUtils.create(UsersRepository.Users, RoomsRepository.Rooms)
     }
 
     // Populate the data
@@ -43,7 +43,7 @@ fun Application.configureDatabases() {
         exec(sqlText)
     }
 
-    val usersRepository = UsersRepository(database)
+    val usersRepository = UsersRepository()
 
     routing {
         // Create user

@@ -1,13 +1,13 @@
-package com.ironbird.data.repositories
+package com.ironbird.application.repositories
 
-import com.ironbird.data.entities.User
+import com.ironbird.domain.data.entities.User
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.*
 
-class UsersRepository(private val database: Database) {
+class UsersRepository() {
     object Users : Table() {
         val id = integer("id").autoIncrement()
         val name = varchar("name", length = 50)
@@ -16,11 +16,6 @@ class UsersRepository(private val database: Database) {
         override val primaryKey = PrimaryKey(id)
     }
 
-    init {
-        transaction(database) {
-            SchemaUtils.create(Users)
-        }
-    }
 
     suspend fun <T> dbQuery(block: suspend () -> T): T =
         newSuspendedTransaction(Dispatchers.IO) { block() }
