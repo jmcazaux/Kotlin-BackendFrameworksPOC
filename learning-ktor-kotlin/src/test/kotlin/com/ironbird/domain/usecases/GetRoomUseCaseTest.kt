@@ -2,7 +2,10 @@ package com.ironbird.domain.usecases
 
 import com.ironbird.domain.data.entities.Room
 import com.ironbird.domain.data.repositories.RoomsRepository
-import org.junit.Assert
+import io.kotest.matchers.collections.shouldBeSameSizeAs
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 import org.junit.jupiter.api.TestInstance
 
@@ -37,8 +40,8 @@ class GetRoomUseCaseTest {
         val getRoomUseCase = GetRoomUseCase(TestRoomRepository())
 
         val allRooms = getRoomUseCase.getAll()
-        Assert.assertEquals(TestRoomRepository.ROOMS.size, allRooms.size)
-        Assert.assertSame(TestRoomRepository.ROOMS, allRooms)
+        allRooms shouldBeSameSizeAs TestRoomRepository.ROOMS
+        allRooms shouldBe TestRoomRepository.ROOMS
     }
 
     @Test
@@ -46,8 +49,8 @@ class GetRoomUseCaseTest {
         val getRoomUseCase = GetRoomUseCase(TestRoomRepository())
 
         val roomR1 = getRoomUseCase.getByNumber("R1")
-        Assert.assertNotNull(roomR1)
-        Assert.assertEquals("R1", roomR1?.roomNumber)
+        roomR1.shouldNotBeNull()
+        roomR1.roomNumber shouldBe "R1"
 
     }
 
@@ -56,7 +59,7 @@ class GetRoomUseCaseTest {
         val getRoomUseCase = GetRoomUseCase(TestRoomRepository())
 
         val room = getRoomUseCase.getByNumber("NOT_A_ROOM")
-        Assert.assertNull(room)
+        room.shouldBeNull()
 
     }
 
@@ -65,8 +68,8 @@ class GetRoomUseCaseTest {
         val getRoomUseCase = GetRoomUseCase(TestRoomRepository())
 
         val bestRoom = getRoomUseCase.getByName("Best Room")
-        Assert.assertNotNull(bestRoom)
-        Assert.assertEquals("Best Room", bestRoom?.name)
+        bestRoom.shouldNotBeNull()
+        bestRoom.name shouldBe "Best Room"
     }
 
     @Test
@@ -74,6 +77,6 @@ class GetRoomUseCaseTest {
         val getRoomUseCase = GetRoomUseCase(TestRoomRepository())
 
         val room = getRoomUseCase.getByName("NOT_A_ROOM")
-        Assert.assertNull(room)
+        room.shouldBeNull()
     }
 }

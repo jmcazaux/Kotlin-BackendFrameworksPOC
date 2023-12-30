@@ -1,11 +1,12 @@
 package com.ironbird
 
-import com.ironbird.plugins.*
+import com.ironbird.plugins.configureRouting
+import io.kotest.matchers.shouldBe
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import kotlin.test.*
+import org.junit.Test
 
 class ApplicationTest {
     @Test
@@ -14,8 +15,8 @@ class ApplicationTest {
             configureRouting()
         }
         client.get("/").apply {
-            assertEquals(HttpStatusCode.OK, status)
-            assertEquals("Hello World!", bodyAsText())
+            status shouldBe HttpStatusCode.OK
+            bodyAsText() shouldBe "Hello World!"
         }
     }
 }
