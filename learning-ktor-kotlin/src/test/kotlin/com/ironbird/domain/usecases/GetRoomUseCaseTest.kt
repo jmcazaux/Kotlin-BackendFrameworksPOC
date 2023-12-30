@@ -2,15 +2,16 @@ package com.ironbird.domain.usecases
 
 import com.ironbird.domain.data.entities.Room
 import com.ironbird.domain.data.repositories.RoomsRepository
-import io.kotest.matchers.collections.shouldBeSameSizeAs
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 
-class TestRoomRepository : RoomsRepository {
+private class MockRoomRepository : RoomsRepository {
 
     companion object {
         val ROOMS = listOf(
@@ -27,8 +28,8 @@ class TestRoomRepository : RoomsRepository {
         return ROOMS.singleOrNull { it.roomNumber == roomNumber }
     }
 
-    override fun getByName(roomName: String): Room? {
-        return ROOMS.singleOrNull { it.name == roomName }
+    override fun getByName(name: String): List<Room> {
+        return ROOMS.filter { it.name == name }
     }
 }
 
@@ -37,16 +38,15 @@ class GetRoomUseCaseTest {
 
     @Test
     fun `getAll returns all rooms`() {
-        val getRoomUseCase = GetRoomUseCase(TestRoomRepository())
+        val getRoomUseCase = GetRoomUseCase(MockRoomRepository())
 
         val allRooms = getRoomUseCase.getAll()
-        allRooms shouldBeSameSizeAs TestRoomRepository.ROOMS
-        allRooms shouldBe TestRoomRepository.ROOMS
+        allRooms shouldBe MockRoomRepository.ROOMS
     }
 
     @Test
     fun `getByNumber returns the expected room`() {
-        val getRoomUseCase = GetRoomUseCase(TestRoomRepository())
+        val getRoomUseCase = GetRoomUseCase(MockRoomRepository())
 
         val roomR1 = getRoomUseCase.getByNumber("R1")
         roomR1.shouldNotBeNull()
@@ -56,7 +56,7 @@ class GetRoomUseCaseTest {
 
     @Test
     fun `getByNumber returns Null when the room number does not exists`() {
-        val getRoomUseCase = GetRoomUseCase(TestRoomRepository())
+        val getRoomUseCase = GetRoomUseCase(MockRoomRepository())
 
         val room = getRoomUseCase.getByNumber("NOT_A_ROOM")
         room.shouldBeNull()
@@ -64,19 +64,19 @@ class GetRoomUseCaseTest {
     }
 
     @Test
-    fun `getByName returns the expected room`() {
-        val getRoomUseCase = GetRoomUseCase(TestRoomRepository())
+    fun `getByName returns the expected rooms`() {
+        val getRoomUseCase = GetRoomUseCase(MockRoomRepository())
 
-        val bestRoom = getRoomUseCase.getByName("Best Room")
-        bestRoom.shouldNotBeNull()
-        bestRoom.name shouldBe "Best Room"
+        val bestRooms = getRoomUseCase.getByName("Best Room")
+        bestRooms.shouldNotBeEmpty()
+        bestRooms.first().name shouldBe "Best Room"
     }
 
     @Test
-    fun `getByName returns none when the room name does not exists`() {
-        val getRoomUseCase = GetRoomUseCase(TestRoomRepository())
+    fun `getByName returns empty list when the room name does not exists`() {
+        val getRoomUseCase = GetRoomUseCase(MockRoomRepository())
 
-        val room = getRoomUseCase.getByName("NOT_A_ROOM")
-        room.shouldBeNull()
+        val rooms = getRoomUseCase.getByName("NOT_A_ROOM")
+        rooms.shouldBeEmpty()
     }
 }

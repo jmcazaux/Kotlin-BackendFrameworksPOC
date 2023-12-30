@@ -14,7 +14,7 @@ class GetRoomUseCase(private val roomsRepository: RoomsRepository) {
         return roomsRepository.getByNumber(roomNumber)
     }
 
-    fun getByName(roomName: String): Room? {
-        return roomsRepository.getByName(roomName)
+    fun getByName(name: String): List<Room> {
+        return roomsRepository.getByName(name)
     }
 }

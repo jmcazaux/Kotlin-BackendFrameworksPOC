@@ -1,32 +1,41 @@
 package com.ironbird.application.repositories
 
+import com.ironbird.application.repositories.daos.RoomDao
+import com.ironbird.application.repositories.daos.Rooms
 import com.ironbird.domain.data.entities.Room
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.transactions.transaction
 import com.ironbird.domain.data.repositories.RoomsRepository as RoomsRepositoryInterface
-
-
 
 
 class RoomsRepository : RoomsRepositoryInterface {
 
-    object Rooms : Table(name="room") {
-        var id = long("room_id").autoIncrement()
-        var name = varchar("name", length=256)
-        var roomNumber = varchar("room_number", length=16)
-        var bedInfo = varchar("bed_info", length=64)
-
-        override val primaryKey = PrimaryKey(id)
-    }
-
     override fun getAll(): List<Room> {
-        TODO("Not yet implemented")
+        val resultSet = transaction {
+            RoomDao.all().sortedBy { it.roomNumber }
+        }
+        return resultSet.map {
+            it.toRoom()
+        }
     }
 
     override fun getByNumber(roomNumber: String): Room? {
-        TODO("Not yet implemented")
+        val roomDao = transaction {
+            RoomDao.find { Rooms.roomNumber eq roomNumber }.firstOrNull()
+        }
+        return roomDao?.toRoom()
     }
 
-    override fun getByName(roomName: String): Room? {
-        TODO("Not yet implemented")
+    override fun getByName(name: String): List<Room> {
+        val resultSet = transaction {
+            RoomDao.find { Rooms.name eq name }.sortedBy { it.roomNumber }
+        }
+        return resultSet.map {
+            it.toRoom()
+        }
     }
+}
+
+
+fun RoomDao.toRoom(): Room {
+    return Room(id = this.id.value, name = this.name, bedInfo = this.bedInfo, roomNumber = this.roomNumber)
 }
