@@ -1,7 +1,6 @@
-package com.ironbird.application.repositories
+package com.ironbird.application.infrastructure.persistence
 
 
-import com.ironbird.application.infrastructure.persistence.RoomsRepository
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldBeSortedBy
 import io.kotest.matchers.collections.shouldHaveSize

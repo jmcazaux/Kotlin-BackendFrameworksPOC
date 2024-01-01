@@ -1,4 +1,4 @@
-package com.ironbird.application.repositories
+package com.ironbird.application.infrastructure.persistence
 
 import com.ironbird.application.infrastructure.persistence.daos.Rooms
 import org.jetbrains.exposed.sql.Database
