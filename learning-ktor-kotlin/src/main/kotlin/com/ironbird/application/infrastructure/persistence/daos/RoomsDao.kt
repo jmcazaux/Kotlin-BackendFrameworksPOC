@@ -1,4 +1,4 @@
-package com.ironbird.application.repositories.daos
+package com.ironbird.application.infrastructure.persistence.daos
 
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

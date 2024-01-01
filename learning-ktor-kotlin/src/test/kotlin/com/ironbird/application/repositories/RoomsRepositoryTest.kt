@@ -1,6 +1,7 @@
 package com.ironbird.application.repositories
 
 
+import com.ironbird.application.infrastructure.persistence.RoomsRepository
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldBeSortedBy
 import io.kotest.matchers.collections.shouldHaveSize
@@ -8,15 +9,12 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
-
 import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RoomsRepositoryTest : TestWithDb() {
-    
+
     @Test
     fun `getAll returns all rooms when some room exists`() {
         this.resetDb()
@@ -60,7 +58,7 @@ class RoomsRepositoryTest : TestWithDb() {
 
 
     @Test
-    fun `getByName returns none when the room name does not exists`() {
+    fun `getByName returns Null when the room name does not exists`() {
         this.prefillDb()
         val roomsInL1 = RoomsRepository().getByName("NOT_A_LOCATION")
         roomsInL1.shouldBeEmpty()

@@ -1,7 +1,7 @@
-package com.ironbird.application.repositories
+package com.ironbird.application.infrastructure.persistence
 
-import com.ironbird.application.repositories.daos.RoomDao
-import com.ironbird.application.repositories.daos.Rooms
+import com.ironbird.application.infrastructure.persistence.daos.RoomDao
+import com.ironbird.application.infrastructure.persistence.daos.Rooms
 import com.ironbird.domain.data.entities.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 import com.ironbird.domain.data.repositories.RoomsRepository as RoomsRepositoryInterface

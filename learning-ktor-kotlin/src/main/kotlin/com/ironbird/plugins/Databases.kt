@@ -1,6 +1,6 @@
 package com.ironbird.plugins
 
-import com.ironbird.application.repositories.daos.Rooms
+import com.ironbird.application.infrastructure.persistence.daos.Rooms
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database

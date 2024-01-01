@@ -1,6 +1,6 @@
 package com.ironbird.application.repositories
 
-import com.ironbird.application.repositories.daos.Rooms
+import com.ironbird.application.infrastructure.persistence.daos.Rooms
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
