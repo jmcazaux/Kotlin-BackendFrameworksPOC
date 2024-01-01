@@ -1,5 +1,6 @@
-package com.ironbird.application.infrastructure.persistence
+package com.ironbird.application
 
+import com.ironbird.application.infrastructure.persistence.daos.Guests
 import com.ironbird.application.infrastructure.persistence.daos.Rooms
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -11,7 +12,7 @@ abstract class TestWithDb {
     private val db: Database = Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
 
     companion object {
-        val TABLES = arrayOf(Rooms)
+        val TABLES = arrayOf(Rooms, Guests)
     }
 
     init {

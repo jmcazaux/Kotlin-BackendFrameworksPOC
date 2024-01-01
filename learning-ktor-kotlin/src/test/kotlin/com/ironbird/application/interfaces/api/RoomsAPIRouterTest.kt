@@ -1,6 +1,6 @@
 package com.ironbird.application.interfaces.api
 
-import com.ironbird.application.infrastructure.persistence.TestWithDb
+import com.ironbird.application.TestWithDb
 import com.ironbird.domain.data.entities.Room
 import com.ironbird.plugins.configureRouting
 import com.ironbird.plugins.configureSerialization
@@ -14,9 +14,11 @@ import io.ktor.http.*
 import io.ktor.server.testing.*
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RoomsAPIRouterTest : TestWithDb() {
-    
+
     @Test
     fun `GET on api-rooms returns all rooms`() = testApplication {
 
@@ -52,9 +54,9 @@ class RoomsAPIRouterTest : TestWithDb() {
         val client = createClient {
 
         }
-        val response = client.get("/api/rooms")
-
-        response.status shouldBe HttpStatusCode.OK
-        response.bodyAsText().shouldBeEmptyJsonArray()
+        client.get("/api/rooms").apply {
+            status shouldBe HttpStatusCode.OK
+            bodyAsText().shouldBeEmptyJsonArray()
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.ironbird.plugins
 
+import com.ironbird.application.infrastructure.persistence.daos.Guests
 import com.ironbird.application.infrastructure.persistence.daos.Rooms
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -23,7 +24,7 @@ fun configureDatabases() {
 
     // Initializing DB schema (as we use in-memory DB, no need for upgrading , etc.)
     transaction(database) {
-        SchemaUtils.create(Rooms)
+        SchemaUtils.create(Rooms, Guests)
     }
 
     // Populate the data

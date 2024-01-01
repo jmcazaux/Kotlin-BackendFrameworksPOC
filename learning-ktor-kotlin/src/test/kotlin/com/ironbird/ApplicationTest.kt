@@ -2,6 +2,7 @@ package com.ironbird
 
 import com.ironbird.plugins.configureRouting
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -17,7 +18,7 @@ class ApplicationTest {
         }
         client.get("/").apply {
             status shouldBe HttpStatusCode.OK
-            bodyAsText() shouldBe "Hello World!"
+            bodyAsText() shouldContain "Welcome to The Ktor Hotel"
         }
     }
 }

@@ -36,9 +36,12 @@ private class MockRoomRepository : RoomsRepository {
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GetRoomUseCaseTest {
 
+    private val roomsRepository = MockRoomRepository()
+
+
     @Test
     fun `getAll returns all rooms`() {
-        val getRoomUseCase = GetRoomUseCase(MockRoomRepository())
+        val getRoomUseCase = GetRoomUseCase(this.roomsRepository)
 
         val allRooms = getRoomUseCase.getAll()
         allRooms shouldBe MockRoomRepository.ROOMS
@@ -46,7 +49,7 @@ class GetRoomUseCaseTest {
 
     @Test
     fun `getByNumber returns the expected room`() {
-        val getRoomUseCase = GetRoomUseCase(MockRoomRepository())
+        val getRoomUseCase = GetRoomUseCase(this.roomsRepository)
 
         val roomR1 = getRoomUseCase.getByNumber("R1")
         roomR1.shouldNotBeNull()
@@ -56,7 +59,7 @@ class GetRoomUseCaseTest {
 
     @Test
     fun `getByNumber returns Null when the room number does not exists`() {
-        val getRoomUseCase = GetRoomUseCase(MockRoomRepository())
+        val getRoomUseCase = GetRoomUseCase(this.roomsRepository)
 
         val room = getRoomUseCase.getByNumber("NOT_A_ROOM")
         room.shouldBeNull()
@@ -65,7 +68,7 @@ class GetRoomUseCaseTest {
 
     @Test
     fun `getByName returns the expected rooms`() {
-        val getRoomUseCase = GetRoomUseCase(MockRoomRepository())
+        val getRoomUseCase = GetRoomUseCase(this.roomsRepository)
 
         val bestRooms = getRoomUseCase.getByName("Best Room")
         bestRooms.shouldNotBeEmpty()
@@ -74,7 +77,7 @@ class GetRoomUseCaseTest {
 
     @Test
     fun `getByName returns empty list when the room name does not exists`() {
-        val getRoomUseCase = GetRoomUseCase(MockRoomRepository())
+        val getRoomUseCase = GetRoomUseCase(this.roomsRepository)
 
         val rooms = getRoomUseCase.getByName("NOT_A_ROOM")
         rooms.shouldBeEmpty()
