@@ -1,15 +1,16 @@
 package com.ironbird.learningspring.data;
 
-import javax.persistence.*;
+
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="ROOM")
+@Table(name = "ROOM")
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="ROOM_ID")
+    @Column(name = "ROOM_ID")
     private long roomId;
-    @Column(name="NAME")
+    @Column(name = "NAME")
     private String name;
     @Column(name = "ROOM_NUMBER")
     private String roomNumber;

@@ -1,6 +1,6 @@
 package com.ironbird.learningspring.data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "GUEST")

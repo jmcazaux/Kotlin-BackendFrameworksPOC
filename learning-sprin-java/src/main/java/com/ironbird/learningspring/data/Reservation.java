@@ -1,25 +1,26 @@
 package com.ironbird.learningspring.data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.util.Date;
 
 @Entity
-@Table(name="RESERVATION")
+@Table(name = "RESERVATION")
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="RESERVATION_ID")
+    @Column(name = "RESERVATION_ID")
     private long reservationId;
 
     @ManyToOne
-    @JoinColumn(name="ROOM_ID", referencedColumnName = "ROOM_ID")
+    @JoinColumn(name = "ROOM_ID", referencedColumnName = "ROOM_ID")
     private Room room;
 
     @ManyToOne
-    @JoinColumn(name="GUEST_ID", referencedColumnName = "GUEST_ID")
+    @JoinColumn(name = "GUEST_ID", referencedColumnName = "GUEST_ID")
     private Guest guest;
 
-    @Column(name="RES_DATE")
+    @Column(name = "RES_DATE")
     private Date reservationDate;
 
     public long getReservationId() {
