@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ironbird</groupId>
-    <artifactId>learning-spring</artifactId>
+    <artifactId>learning-spring-java</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>learning-spring</name>
     <description>Demo project for Spring Boot</description>
