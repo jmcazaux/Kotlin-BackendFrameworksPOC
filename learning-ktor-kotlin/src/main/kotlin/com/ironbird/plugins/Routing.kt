@@ -4,7 +4,10 @@ import com.ironbird.application.infrastructure.persistence.GuestsRepository
 import com.ironbird.application.infrastructure.persistence.RoomsRepository
 import com.ironbird.application.interfaces.api.RoomsAPIRouter
 import com.ironbird.application.interfaces.web.GuestWebRouter
+import com.ironbird.application.infrastructure.persistence.ReservationRepository
+import com.ironbird.application.interfaces.web.ReservationWebRouter
 import com.ironbird.domain.usecases.GetGuestUseCase
+import com.ironbird.domain.usecases.GetReservationsUseCase
 import com.ironbird.domain.usecases.GetRoomUseCase
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
@@ -14,6 +17,7 @@ fun Application.configureRouting() {
 
     val getRoomUseCase = GetRoomUseCase(RoomsRepository())
     val getGuestUseCase = GetGuestUseCase(GuestsRepository())
+    val getReservationsUseCase = GetReservationsUseCase(ReservationRepository())
 
     install(IgnoreTrailingSlash)
 
@@ -32,6 +36,9 @@ fun Application.configureRouting() {
         route("/web") {
             route("/guests") {
                 GuestWebRouter(this, getGuestUseCase)
+            }
+            route("/reservations") {
+                ReservationWebRouter(this, getReservationsUseCase)
             }
         }
 

@@ -1,6 +1,7 @@
 package com.ironbird.application
 
 import com.ironbird.application.infrastructure.persistence.daos.Guests
+import com.ironbird.application.infrastructure.persistence.daos.Reservations
 import com.ironbird.application.infrastructure.persistence.daos.Rooms
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -12,7 +13,7 @@ abstract class TestWithDb {
     private val db: Database = Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
 
     companion object {
-        val TABLES = arrayOf(Rooms, Guests)
+        val TABLES = arrayOf(Rooms, Guests, Reservations)
     }
 
     init {
@@ -35,9 +36,11 @@ abstract class TestWithDb {
 
     fun resetDb() {
         transaction(db) {
-            var sql = TABLES.map { table -> "TRUNCATE TABLE ${table.tableName};\n" }
+            val sql = TABLES.map { table -> "TRUNCATE TABLE ${table.tableName};\n" }
                 .reduce { truncateSql, sql -> truncateSql + sql }
+            exec("SET REFERENTIAL_INTEGRITY FALSE")
             exec(sql)
+            exec("SET REFERENTIAL_INTEGRITY TRUE")
         }
     }
 

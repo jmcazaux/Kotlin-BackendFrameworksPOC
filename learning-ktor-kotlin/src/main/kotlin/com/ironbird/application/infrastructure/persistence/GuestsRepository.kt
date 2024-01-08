@@ -12,7 +12,11 @@ class GuestsRepository : GuestsRepositoryInterface {
         }
 
         return resultSet.map {
-            Guest(firstName = it.firstName, lastName = it.lastName, emailAddress = it.emailAddress, address = it.address, country = it.country, state =  it.state, phoneNumber = it.phoneNumber)
+            it.toGuest()
         }
     }
+}
+
+fun GuestDao.toGuest(): Guest {
+    return Guest(firstName = this.firstName, lastName = this.lastName, emailAddress = this.emailAddress, address = this.address, country = this.country, state =  this.state, phoneNumber = this.phoneNumber)
 }
