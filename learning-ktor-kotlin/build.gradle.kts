@@ -11,6 +11,7 @@ plugins {
     kotlin("jvm") version "1.9.21"
     id("io.ktor.plugin") version "2.3.7"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.21"
+    id("org.graalvm.buildtools.native") version "0.9.28"
 }
 
 group = "com.ironbird"
@@ -27,6 +28,7 @@ repositories {
     mavenCentral()
 }
 
+
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
@@ -40,7 +42,7 @@ dependencies {
     implementation("io.ktor:ktor-server-call-logging-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-cio-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-openapi:$ktor_version")
     implementation("io.ktor:ktor-server-swagger-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-thymeleaf-jvm:$ktor_version")
@@ -55,4 +57,48 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
     testImplementation("org.junit.jupiter:junit-jupiter:$junit_version")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit_version")
+}
+
+
+graalvmNative {
+    binaries {
+
+        named("main") {
+            fallback.set(false)
+
+            buildArgs.add("--initialize-at-build-time=ch.qos.logback")
+            buildArgs.add("--initialize-at-build-time=io.ktor,kotlin")
+            buildArgs.add("--initialize-at-build-time=org.slf4j.LoggerFactory")
+            buildArgs.add("--initialize-at-build-time=kotlinx.serialization.json.JsonImpl")
+            buildArgs.add("--initialize-at-build-time=org.h2.fulltext.FullTextLucene")
+            buildArgs.add("--initialize-at-build-time=org.apache.lucene.index.IndexFormatTooOldException")
+
+
+            buildArgs.add("-H:+InstallExitHandlers")
+            buildArgs.add("-H:+ReportUnsupportedElementsAtRuntime")
+            buildArgs.add("-H:+ReportExceptionStackTraces")
+
+            imageName.set("graalvm-server")
+        }
+
+        named("test") {
+            fallback.set(false)
+
+            buildArgs.add("--initialize-at-build-time=ch.qos.logback")
+            buildArgs.add("--initialize-at-build-time=io.ktor,kotlin")
+            buildArgs.add("--initialize-at-build-time=org.slf4j.LoggerFactory")
+            buildArgs.add("--initialize-at-build-time=kotlinx.serialization.json.JsonImpl")
+            buildArgs.add("--initialize-at-build-time=org.h2.fulltext.FullTextLucene")
+
+            buildArgs.add("-H:+InstallExitHandlers")
+            buildArgs.add("-H:+ReportUnsupportedElementsAtRuntime")
+            buildArgs.add("-H:+ReportExceptionStackTraces")
+
+            val path = "${projectDir}/src/test/resources/META-INF/native-image/"
+            buildArgs.add("-H:ReflectionConfigurationFiles=${path}reflect-config.json")
+            buildArgs.add("-H:ResourceConfigurationFiles=${path}resource-config.json")
+
+            imageName.set("graalvm-test-server")
+        }
+    }
 }
