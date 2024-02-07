@@ -1,4 +1,4 @@
-package com.ironbird
+package com.ironbird.learningquarkus
 
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
