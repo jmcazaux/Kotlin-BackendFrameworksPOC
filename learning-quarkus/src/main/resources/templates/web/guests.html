@@ -1,0 +1,27 @@
+{@java.util.List<com.ironbird.learningquarkus.data.entity.Guest> guests}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IronBird Hotel Room Reservations Service - Guests</title>
+</head>
+<body>
+<h1>IronBird Hotel Guests</h1>
+<table>
+    <tr align="left">
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Country</th>
+    </tr>
+    {#for guest in guests}
+    <tr>
+        <td>{guest.firstName}</td>
+        <td>{guest.lastName}</td>
+        <td>{guest.emailAddress}</td>
+        <td>{guest.country}</td>
+    </tr>
+    {/for}
+</table>
+</body>
+</html>
