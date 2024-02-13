@@ -7,13 +7,13 @@ import java.sql.Date
 
 class ReservationRepository : PanacheRepository<Reservation> {
 
-    fun getRoomsOccupancy(day: Date): List<RoomReservation> {
+/*    fun getRoomsOccupancy(day: Date): List<RoomReservation> {
         val q = """
             select 
                 r.roomId,
                 
-        """
+        """.trimIndent()
         var r = this.find("").project(RoomReservation)
         return r
-    }
+    }*/
 }
